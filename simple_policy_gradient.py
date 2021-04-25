@@ -5,13 +5,12 @@ import environment as envi
 import os.path
 
 
-my_path = os.path.abspath(os.path.dirname(__file__))
-MODEL_PATH = os.path.join(my_path,'spg/simple_pg.ckpt')
-SAVED_MODEL_PATH = os.path.join(my_path,'spg/eval/simple_pg.ckpt')
-LOG_FILE = os.path.join(my_path,'spg/reward_episode.log')
+MODEL_PATH = '/home/sid/PycharmProjects/play_catch_with_drones/spg/simple_pg.ckpt'
+SAVED_MODEL_PATH = '/home/sid/PycharmProjects/play_catch_with_drones/spg/eval/simple_pg.ckpt'
+LOG_FILE = '/home/sid/PycharmProjects/play_catch_with_drones/spg/reward_episode.log'
 
-MODEL_DIR=os.path.join(my_path, 'spg')
-META_PATH=os.path.join(MODEL_DIR, 'simple_pg.ckpt.meta')
+MODEL_DIR ='/home/sid/PycharmProjects/play_catch_with_drones/spg'
+META_PATH='/home/sid/PycharmProjects/play_catch_with_drones/spg/simple_pg.ckpt.meta'
 
 class SimplePolicyGradient:
     def __init__(self, epochs=5000, runs_per_epoch=50, hidden_layers=[64,32], lr=1e-3):
@@ -59,7 +58,7 @@ class SimplePolicyGradient:
 
         if restore_checkpoints:
             saver = tf.train.import_meta_graph(META_PATH)
-            saver.restore(self.sess, tf.train.latest_checkpoint(MODEL_DIR))
+            saver.restore(self.sess, tf.train.latest_checkpoint('/home/sid/PycharmProjects/play_catch_with_drones/spg'))
 
         log_file = open(LOG_FILE,'w')
         # training loop
