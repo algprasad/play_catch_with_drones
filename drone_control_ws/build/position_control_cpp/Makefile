@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named velocity_control
+
+# Build rule for target.
+velocity_control: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 velocity_control
+.PHONY : velocity_control
+
+# fast build rule for target.
+velocity_control/fast:
+	$(MAKE) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/build
+.PHONY : velocity_control/fast
+
+#=============================================================================
 # Target rules for targets named position_control
 
 # Build rule for target.
@@ -1013,6 +1026,33 @@ src/position_control.cpp.s:
 	$(MAKE) -f CMakeFiles/position_control.dir/build.make CMakeFiles/position_control.dir/src/position_control.cpp.s
 .PHONY : src/position_control.cpp.s
 
+src/velocity_control.o: src/velocity_control.cpp.o
+
+.PHONY : src/velocity_control.o
+
+# target to build an object file
+src/velocity_control.cpp.o:
+	$(MAKE) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.o
+.PHONY : src/velocity_control.cpp.o
+
+src/velocity_control.i: src/velocity_control.cpp.i
+
+.PHONY : src/velocity_control.i
+
+# target to preprocess a source file
+src/velocity_control.cpp.i:
+	$(MAKE) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.i
+.PHONY : src/velocity_control.cpp.i
+
+src/velocity_control.s: src/velocity_control.cpp.s
+
+.PHONY : src/velocity_control.s
+
+# target to generate assembly for a file
+src/velocity_control.cpp.s:
+	$(MAKE) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.s
+.PHONY : src/velocity_control.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1022,6 +1062,7 @@ help:
 	@echo "... install/strip"
 	@echo "... install"
 	@echo "... list_install_components"
+	@echo "... velocity_control"
 	@echo "... position_control"
 	@echo "... edit_cache"
 	@echo "... position_control_cpp_genpy"
@@ -1092,6 +1133,9 @@ help:
 	@echo "... src/position_control.o"
 	@echo "... src/position_control.i"
 	@echo "... src/position_control.s"
+	@echo "... src/velocity_control.o"
+	@echo "... src/velocity_control.i"
+	@echo "... src/velocity_control.s"
 .PHONY : help
 
 

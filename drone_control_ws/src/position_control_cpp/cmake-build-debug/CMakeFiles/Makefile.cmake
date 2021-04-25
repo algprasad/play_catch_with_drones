@@ -265,6 +265,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/run_tests.dir/DependInfo.cmake"
   "CMakeFiles/doxygen.dir/DependInfo.cmake"
   "CMakeFiles/std_msgs_generate_messages_lisp.dir/DependInfo.cmake"
+  "CMakeFiles/velocity_control.dir/DependInfo.cmake"
   "CMakeFiles/geometry_msgs_generate_messages_lisp.dir/DependInfo.cmake"
   "CMakeFiles/mavros_msgs_generate_messages_nodejs.dir/DependInfo.cmake"
   "CMakeFiles/geographic_msgs_generate_messages_lisp.dir/DependInfo.cmake"

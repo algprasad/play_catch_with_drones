@@ -73,6 +73,7 @@ CMAKE_BINARY_DIR = /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Projec
 
 # The main recursive "all" target.
 all: CMakeFiles/position_control.dir/all
+all: CMakeFiles/velocity_control.dir/all
 all: CMakeFiles/position_control_cpp_generate_messages.dir/all
 all: gtest/all
 
@@ -111,6 +112,7 @@ clean: CMakeFiles/mavros_msgs_generate_messages_cpp.dir/clean
 clean: CMakeFiles/run_tests.dir/clean
 clean: CMakeFiles/doxygen.dir/clean
 clean: CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/velocity_control.dir/clean
 clean: CMakeFiles/geometry_msgs_generate_messages_lisp.dir/clean
 clean: CMakeFiles/mavros_msgs_generate_messages_nodejs.dir/clean
 clean: CMakeFiles/geographic_msgs_generate_messages_lisp.dir/clean
@@ -944,6 +946,33 @@ std_msgs_generate_messages_lisp: CMakeFiles/std_msgs_generate_messages_lisp.dir/
 CMakeFiles/std_msgs_generate_messages_lisp.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
 .PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/velocity_control.dir
+
+# All Build rule for target.
+CMakeFiles/velocity_control.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/cmake-build-debug/CMakeFiles --progress-num=26,27 "Built target velocity_control"
+.PHONY : CMakeFiles/velocity_control.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/velocity_control.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/cmake-build-debug/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/velocity_control.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/velocity_control.dir/rule
+
+# Convenience name for target.
+velocity_control: CMakeFiles/velocity_control.dir/rule
+
+.PHONY : velocity_control
+
+# clean rule for target.
+CMakeFiles/velocity_control.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/clean
+.PHONY : CMakeFiles/velocity_control.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/geometry_msgs_generate_messages_lisp.dir

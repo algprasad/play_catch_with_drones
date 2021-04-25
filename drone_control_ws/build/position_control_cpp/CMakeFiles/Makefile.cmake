@@ -233,6 +233,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/velocity_control.dir/DependInfo.cmake"
   "CMakeFiles/position_control.dir/DependInfo.cmake"
   "CMakeFiles/position_control_cpp_genpy.dir/DependInfo.cmake"
   "CMakeFiles/position_control_cpp_gennodejs.dir/DependInfo.cmake"

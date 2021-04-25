@@ -538,6 +538,19 @@ std_msgs_generate_messages_lisp/fast:
 .PHONY : std_msgs_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named velocity_control
+
+# Build rule for target.
+velocity_control: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 velocity_control
+.PHONY : velocity_control
+
+# fast build rule for target.
+velocity_control/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/build
+.PHONY : velocity_control/fast
+
+#=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -1032,6 +1045,33 @@ src/position_control.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/position_control.dir/build.make CMakeFiles/position_control.dir/src/position_control.cpp.s
 .PHONY : src/position_control.cpp.s
 
+src/velocity_control.o: src/velocity_control.cpp.o
+
+.PHONY : src/velocity_control.o
+
+# target to build an object file
+src/velocity_control.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.o
+.PHONY : src/velocity_control.cpp.o
+
+src/velocity_control.i: src/velocity_control.cpp.i
+
+.PHONY : src/velocity_control.i
+
+# target to preprocess a source file
+src/velocity_control.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.i
+.PHONY : src/velocity_control.cpp.i
+
+src/velocity_control.s: src/velocity_control.cpp.s
+
+.PHONY : src/velocity_control.s
+
+# target to generate assembly for a file
+src/velocity_control.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/velocity_control.dir/build.make CMakeFiles/velocity_control.dir/src/velocity_control.cpp.s
+.PHONY : src/velocity_control.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1108,9 +1148,13 @@ help:
 	@echo "... gtest"
 	@echo "... gtest_main"
 	@echo "... position_control"
+	@echo "... velocity_control"
 	@echo "... src/position_control.o"
 	@echo "... src/position_control.i"
 	@echo "... src/position_control.s"
+	@echo "... src/velocity_control.o"
+	@echo "... src/velocity_control.i"
+	@echo "... src/velocity_control.s"
 .PHONY : help
 
 
