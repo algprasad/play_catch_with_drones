@@ -1,0 +1,19 @@
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_py
+[  7%] Built target geometry_msgs_generate_messages_cpp
+[ 14%] Built target position_control
+[ 14%] Built target std_msgs_generate_messages_cpp
+[ 14%] Built target std_msgs_generate_messages_nodejs
+[ 14%] Built target _position_control_cpp_generate_messages_check_deps_set_position
+[ 14%] Built target _position_control_cpp_generate_messages_check_deps_set_velocity
+[ 85%] Built target position_control_cpp_generate_messages_cpp
+[ 85%] Built target position_control_cpp_generate_messages_py
+[ 85%] Built target position_control_cpp_generate_messages_eus
+[ 85%] Built target position_control_cpp_generate_messages_nodejs
+[100%] Built target position_control_cpp_generate_messages_lisp
+[100%] Built target position_control_cpp_generate_messages

@@ -1,0 +1,6 @@
+devel_space: /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel
+install: false
+install_space: /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/install
+profile: default
+source_space: /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src
+workspace: /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws

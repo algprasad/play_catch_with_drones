@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: position_control_cpp
+Description: Description of position_control_cpp
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs mavros_msgs roscpp

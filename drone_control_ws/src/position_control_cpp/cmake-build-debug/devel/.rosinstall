@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/cmake-build-debug/devel/setup.sh

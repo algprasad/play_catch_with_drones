@@ -1,0 +1,22 @@
+[35m[1mScanning dependencies of target position_control[0m
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  7%] [32mBuilding CXX object CMakeFiles/position_control.dir/src/position_control.cpp.o[0m
+[  7%] Built target std_msgs_generate_messages_nodejs
+[  7%] Built target _position_control_cpp_generate_messages_check_deps_set_position
+[  7%] Built target _position_control_cpp_generate_messages_check_deps_set_velocity
+[ 28%] Built target position_control_cpp_generate_messages_py
+[ 42%] Built target position_control_cpp_generate_messages_cpp
+[ 64%] Built target position_control_cpp_generate_messages_eus
+[ 78%] Built target position_control_cpp_generate_messages_lisp
+[ 92%] Built target position_control_cpp_generate_messages_nodejs
+[ 92%] Built target position_control_cpp_generate_messages
+[100%] [32m[1mLinking CXX executable /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/lib/position_control_cpp/position_control[0m
+[100%] Built target position_control

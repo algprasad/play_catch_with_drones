@@ -1,0 +1,8 @@
+prefix=/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp
+
+Name: position_control_cpp
+Description: Description of position_control_cpp
+Version: 0.0.0
+Cflags: -I/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/include -I/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/include
+Libs: -L${prefix}/lib 
+Requires: geometry_msgs mavros_msgs roscpp
