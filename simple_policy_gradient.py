@@ -51,11 +51,16 @@ class SimplePolicyGradient:
             x = tf.layers.dense(x, units=size, activation=activation)
         return tf.layers.dense(x, units=sizes[-1], activation=output_activation)
 
-    def train(self):
+    def train(self, restore_checkpoints=True):
         self.sess = tf.InteractiveSession()
         self.sess.run(tf.global_variables_initializer())
 
         saver = tf.train.Saver()
+
+        if restore_checkpoints:
+            saver = tf.train.import_meta_graph(META_PATH)
+            saver.restore(self.sess, tf.train.latest_checkpoint(MODEL_DIR))
+
         log_file = open(LOG_FILE,'w')
         # training loop
         print('STARTED TRAINING.................................')

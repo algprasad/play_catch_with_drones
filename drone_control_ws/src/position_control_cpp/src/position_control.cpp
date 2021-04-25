@@ -83,7 +83,7 @@ int main(int argc, char **argv)
             ("/mavros/local_position/pose", 10, posCallback);
 
     //the setpoint publishing rate MUST be faster than 2Hz
-    ros::Rate rate(10.0);
+    ros::Rate rate(20.0);
 
     // wait for FCU connection
     while(ros::ok() && !current_state.connected && new_current_pose){

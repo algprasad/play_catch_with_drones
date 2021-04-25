@@ -202,7 +202,10 @@ include_directories(
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 
 add_executable(position_control src/position_control.cpp)
+add_executable(velocity_control src/velocity_control.cpp)
+
 target_link_libraries(position_control  ${catkin_LIBRARIES})
+target_link_libraries(velocity_control ${catkin_LIBRARIES})
 
 # endif()
 
