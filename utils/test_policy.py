@@ -3,8 +3,7 @@ import joblib
 import os
 import os.path as osp
 import tensorflow as tf
-import torch
-from spinup import EpochLogger
+from utils.logx import EpochLogger
 from utils.logx import restore_tf_graph
 
 
@@ -50,8 +49,8 @@ def load_policy_and_env(fpath, itr='last', deterministic=False):
     # load the get_action function
     if backend == 'tf1':
         get_action = load_tf_policy(fpath, itr, deterministic)
-    else:
-        get_action = load_pytorch_policy(fpath, itr, deterministic)
+    # else:
+    #     get_action = load_pytorch_policy(fpath, itr, deterministic)
 
     # try to load environment from save
     # (sometimes this will fail because the environment could not be pickled)
@@ -89,22 +88,22 @@ def load_tf_policy(fpath, itr, deterministic=False):
     return get_action
 
 
-def load_pytorch_policy(fpath, itr, deterministic=False):
-    """ Load a pytorch policy saved with Spinning Up Logger."""
-    
-    fname = osp.join(fpath, 'pyt_save', 'model'+itr+'.pt')
-    print('\n\nLoading from %s.\n\n'%fname)
-
-    model = torch.load(fname)
-
-    # make function for producing an action given a single state
-    def get_action(x):
-        with torch.no_grad():
-            x = torch.as_tensor(x, dtype=torch.float32)
-            action = model.act(x)
-        return action
-
-    return get_action
+# def load_pytorch_policy(fpath, itr, deterministic=False):
+#     """ Load a pytorch policy saved with Spinning Up Logger."""
+#
+#     fname = osp.join(fpath, 'pyt_save', 'model'+itr+'.pt')
+#     print('\n\nLoading from %s.\n\n'%fname)
+#
+#     model = torch.load(fname)
+#
+#     # make function for producing an action given a single state
+#     def get_action(x):
+#         with torch.no_grad():
+#             x = torch.as_tensor(x, dtype=torch.float32)
+#             action = model.act(x)
+#         return action
+#
+#     return get_action
 
 
 def run_policy(env, get_action, max_ep_len=None, num_episodes=100, render=True):

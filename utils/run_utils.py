@@ -17,10 +17,12 @@ import string
 # import sys
 # from textwrap import dedent
 import time
+
 # from tqdm import trange
 # import zlib
 
 DIV_LINE_WIDTH = 80
+
 
 def setup_logger_kwargs(exp_name, seed=None, data_dir=None, datestamp=False):
     """
@@ -65,12 +67,12 @@ def setup_logger_kwargs(exp_name, seed=None, data_dir=None, datestamp=False):
     """
 
     # Datestamp forcing
-    datestamp = datestamp # or FORCE_DATESTAMP
+    datestamp = datestamp  # or FORCE_DATESTAMP
 
     # Make base path
     ymd_time = time.strftime("%Y-%m-%d_") if datestamp else ''
     relpath = ''.join([ymd_time, exp_name])
-    
+
     if seed is not None:
         # Make a seed-specific subfolder in the experiment directory.
         if datestamp:
@@ -80,8 +82,8 @@ def setup_logger_kwargs(exp_name, seed=None, data_dir=None, datestamp=False):
             subfolder = ''.join([exp_name, '_s', str(seed)])
         relpath = osp.join(relpath, subfolder)
 
-    data_dir = data_dir # or DEFAULT_DATA_DIR
-    logger_kwargs = dict(output_dir=osp.join(data_dir, relpath), 
+    data_dir = data_dir  # or DEFAULT_DATA_DIR
+    logger_kwargs = dict(output_dir=osp.join(data_dir, relpath),
                          exp_name=exp_name)
     return logger_kwargs
 
@@ -212,7 +214,8 @@ def setup_logger_kwargs(exp_name, seed=None, data_dir=None, datestamp=False):
 
 
 def all_bools(vals):
-    return all([isinstance(v,bool) for v in vals])
+    return all([isinstance(v, bool) for v in vals])
+
 
 def valid_str(v):
     """ 
@@ -255,23 +258,23 @@ class ExperimentGrid:
 
     def print(self):
         """Print a helpful report about the experiment grid."""
-        print('='*DIV_LINE_WIDTH)
+        print('=' * DIV_LINE_WIDTH)
 
         # Prepare announcement at top of printing. If the ExperimentGrid has a
         # short name, write this as one line. If the name is long, break the
         # announcement over two lines.
         base_msg = 'ExperimentGrid %s runs over parameters:\n'
-        name_insert = '['+self._name+']'
-        if len(base_msg%name_insert) <= 80:
-            msg = base_msg%name_insert
+        name_insert = '[' + self._name + ']'
+        if len(base_msg % name_insert) <= 80:
+            msg = base_msg % name_insert
         else:
-            msg = base_msg%(name_insert+'\n')
+            msg = base_msg % (name_insert + '\n')
         print(colorize(msg, color='green', bold=True))
 
         # List off parameters, shorthands, and possible values.
         for k, v, sh in zip(self.keys, self.vals, self.shs):
             color_k = colorize(k.ljust(40), color='cyan', bold=True)
-            print('', color_k, '['+sh+']' if sh is not None else '', '\n')
+            print('', color_k, '[' + sh + ']' if sh is not None else '', '\n')
             for i, val in enumerate(v):
                 print('\t' + str(convert_json(val)))
             print()
@@ -289,8 +292,7 @@ class ExperimentGrid:
         print(' Variants, counting seeds: '.ljust(40), nvars_total)
         print(' Variants, not counting seeds: '.ljust(40), nvars_seedless)
         print()
-        print('='*DIV_LINE_WIDTH)
-
+        print('=' * DIV_LINE_WIDTH)
 
     def _default_shorthand(self, key):
         # Create a default shorthand for the key, built from the first 
@@ -298,8 +300,10 @@ class ExperimentGrid:
         # But if the first three letters contains something which isn't
         # alphanumeric, shear that off.
         valid_chars = "%s%s" % (string.ascii_letters, string.digits)
+
         def shear(x):
             return ''.join(z for z in x[:3] if z in valid_chars)
+
         sh = '-'.join([shear(x) for x in key.split(':')])
         return sh
 
@@ -372,7 +376,7 @@ class ExperimentGrid:
             # Except, however, when the parameter is 'seed'. Seed is handled
             # differently so that runs of the same experiment, with different 
             # seeds, will be grouped by experiment name.
-            if (len(v)>1 or inn) and not(k=='seed'):
+            if (len(v) > 1 or inn) and not (k == 'seed'):
 
                 # Use the shorthand if available, otherwise the full name.
                 param_name = sh if sh is not None else k
@@ -382,7 +386,7 @@ class ExperimentGrid:
                 variant_val = get_val(variant, k)
 
                 # Append to name
-                if all_bools(v): 
+                if all_bools(v):
                     # If this is a param which only takes boolean values,
                     # only include in the name if it's True for this variant.
                     var_name += ('_' + param_name) if variant_val else ''
@@ -395,7 +399,7 @@ class ExperimentGrid:
         """
         Recursively builds list of valid variants.
         """
-        if len(keys)==1:
+        if len(keys) == 1:
             pre_variants = [dict()]
         else:
             pre_variants = self._variants(keys[1:], vals[1:])
@@ -450,21 +454,21 @@ class ExperimentGrid:
             new_var = dict()
             unflatten_set = set()
 
-            for k,v in var.items():
+            for k, v in var.items():
                 if ':' in k:
                     splits = k.split(':')
                     k0 = splits[0]
                     assert k0 not in new_var or isinstance(new_var[k0], dict), \
                         "You can't assign multiple values to the same key."
 
-                    if not(k0 in new_var):
+                    if not (k0 in new_var):
                         new_var[k0] = dict()
 
                     sub_k = ':'.join(splits[1:])
                     new_var[k0][sub_k] = v
                     unflatten_set.add(k0)
                 else:
-                    assert not(k in new_var), \
+                    assert not (k in new_var), \
                         "You can't assign multiple values to the same key."
                     new_var[k] = v
 
@@ -548,10 +552,10 @@ class ExperimentGrid:
 
 def test_eg():
     eg = ExperimentGrid()
-    eg.add('test:a', [1,2,3], 'ta', True)
-    eg.add('test:b', [1,2,3])
-    eg.add('some', [4,5])
-    eg.add('why', [True,False])
+    eg.add('test:a', [1, 2, 3], 'ta', True)
+    eg.add('test:b', [1, 2, 3])
+    eg.add('some', [4, 5])
+    eg.add('why', [True, False])
     eg.add('huh', 5)
     eg.add('no', 6, in_name=True)
     return eg.variants()

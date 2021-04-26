@@ -1,6 +1,4 @@
 import os
-
-from utils.run_utils import ExperimentGrid
 from algos.tf1.ppo.ppo import ppo
 import tensorflow as tf
 import environment as envi
@@ -18,8 +16,8 @@ if __name__ == '__main__':
     parser.add_argument('--l', type=int, default=2)
     parser.add_argument('--gamma', type=float, default=0.99)
     parser.add_argument('--seed', '-s', type=int, default=0)
-    parser.add_argument('--steps', type=int, default=4000)
-    parser.add_argument('--epochs', type=int, default=50)
+    parser.add_argument('--steps', type=int, default=100)
+    parser.add_argument('--epochs', type=int, default=1000)
     parser.add_argument('--exp_name', type=str, default='ppo')
     args = parser.parse_args()
 
@@ -32,4 +30,4 @@ if __name__ == '__main__':
     ppo(lambda: envi.PlayCatch(),
         ac_kwargs=dict(hidden_sizes=[args.hid] * args.l), gamma=args.gamma,
         seed=args.seed, steps_per_epoch=args.steps, epochs=args.epochs,
-        logger_kwargs=logger_kwargs)
+        logger_kwargs=logger_kwargs, filepath=None) # models/ppo/ppo_s0/tf1_save/'

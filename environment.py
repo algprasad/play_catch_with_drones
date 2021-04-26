@@ -51,8 +51,8 @@ class PlayCatch(object):
 
         # TODO: changing obsevation dimensions to ball position(x, y, z) and robot position (x, y)
         self.observation_dimensions = 5
-        self.observation_space = spaces.Box(low=np.array([-500.0, 0, -500.0, 0, -500.0]),
-                                            high=np.array([500.0, 0, 500.0, 0, 500.0]), dtype=np.float32)
+        self.observation_space = spaces.Box(low=np.array([-500.0, -500.0, -500.0, -500.0, -500.0]),
+                                            high=np.array([500.0, 500.0, 500.0, 500.0, 500.0]), dtype=np.float32)
         # self.observation_space = tf.placeholder(shape=(None, self.observation_dimensions), dtype=tf.float32)
 
         # TODO: action space would need to change depending on the number of actions
@@ -60,9 +60,9 @@ class PlayCatch(object):
         # self.action_space = 13
         self.action_space = spaces.Discrete(13)
         # put all the parameter values here
-        self.ball_initial_position_x = -5
+        self.ball_initial_position_x = -7
         self.ball_initial_position_y = 0
-
+        self.no_of_catches = 0
         # self.node = rospy.init_node('ball_catcher_drone', anonymous=True)
         # self.set_position_pub = rospy.Publisher('/gazebo/set_model_state', ModelState)
         # self.cmd_vel_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel', geometry_msgs.msg.TwistStamped,
@@ -102,10 +102,10 @@ class PlayCatch(object):
         reference_point = geometry_msgs.msg.Point(x=0, y=0, z=0)
         t = []
         f = []
-        fx = random.uniform(1, 10)
+        fx = random.uniform(6, 11)
         # fy = random.randint(10, 20)
         fy = 0
-        fz = random.randint(20, 50)  # values of initial test were 10, 0, 100
+        fz = random.randint(40, 50)  # values of initial test were 10, 0, 100
         wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=fx, y=fy, z=fz), \
                                           torque=geometry_msgs.msg.Vector3(x=0, y=0, z=0))
 
@@ -195,14 +195,14 @@ class PlayCatch(object):
         # after resetting the simulation wait for 1 second and launch the ball
 
         self.launch_ball()
-
         # TODO: return statement needed for the reset function
         poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         robot_pose = poses('iris_with_bowl', '')
         ball_pose = poses('unit_sphere', '')
         print('Getting observations ....................')
-        observations = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y, ball_pose.pose.position.x,
-                                 ball_pose.pose.position.y, ball_pose.pose.position.z))
+        observations = np.array((robot_pose.pose.position.x,
+                                 ball_pose.pose.position.x, ball_pose.pose.position.z,
+                                 ball_pose.twist.linear.x, ball_pose.twist.linear.z))
 
         print('World Reset ...........')
         return observations
@@ -250,7 +250,6 @@ class PlayCatch(object):
                 continue
             break
         '''
-
         d, obs, reward = self.exec_step(action)
         return obs, reward, d
 
@@ -275,8 +274,9 @@ class PlayCatch(object):
         poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         robot_pose = poses('iris_with_bowl', '')
         ball_pose = poses('unit_sphere', '')
-        observations = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y, ball_pose.pose.position.x,
-                                 ball_pose.pose.position.y, ball_pose.pose.position.z))
+        observations = np.array((robot_pose.pose.position.x,
+                                 ball_pose.pose.position.x, ball_pose.pose.position.z,
+                                 ball_pose.twist.linear.x, ball_pose.twist.linear.z))
         done, reward = self.get_reward()
         return done, observations, reward
 
@@ -295,6 +295,7 @@ class PlayCatch(object):
         planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
         # FIXME: If the iris is going towards theball but not really catching it, then decrease the planar distance threshold
         if planar_distance < 0.20 and 0.25 > z_diff > 0:
+            self.no_of_catches += 1
             return True
 
         return False
@@ -326,7 +327,7 @@ class PlayCatch(object):
         z_ball = ball_pose.pose.position.z
         # if 2d distance between them is less than 10 cm AND z distance is greater than 20 but less tan 25
         planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
-        reward = - planar_distance
+        reward = 10/(1+planar_distance)
 
         return reward
 

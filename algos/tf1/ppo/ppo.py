@@ -3,7 +3,7 @@ import tensorflow as tf
 import gym
 import time
 import algos.tf1.ppo.core as core
-from utils.logx import EpochLogger
+from utils.logx import EpochLogger, restore_tf_graph
 from utils.mpi_tf import MpiAdamOptimizer, sync_all_params
 from utils.mpi_tools import mpi_fork, mpi_avg, proc_id, mpi_statistics_scalar, num_procs
 
@@ -86,7 +86,7 @@ class PPOBuffer:
 def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0, 
         steps_per_epoch=4000, epochs=50, gamma=0.99, clip_ratio=0.2, pi_lr=3e-4,
         vf_lr=1e-3, train_pi_iters=80, train_v_iters=80, lam=0.97, max_ep_len=1000,
-        target_kl=0.01, logger_kwargs=dict(), save_freq=10):
+        target_kl=0.01, logger_kwargs=dict(), save_freq=10, filepath=None):
     """
     Proximal Policy Optimization (by clipping), 
 
@@ -215,6 +215,8 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
     train_v = MpiAdamOptimizer(learning_rate=vf_lr).minimize(v_loss)
 
     sess = tf.Session()
+    if filepath is not None:
+        restore_tf_graph(sess, fpath=filepath)
     sess.run(tf.global_variables_initializer())
 
     # Sync params across processes
@@ -250,6 +252,7 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
 
     # Main loop: collect experience in env and update/log each epoch
     for epoch in range(epochs):
+        env.no_of_catches = 0
         for t in range(local_steps_per_epoch):
             a, v_t, logp_t = sess.run(get_action_ops, feed_dict={x_ph: o.reshape(1,-1)})
 
@@ -298,6 +301,7 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
         logger.log_tabular('ClipFrac', average_only=True)
         logger.log_tabular('StopIter', average_only=True)
         logger.log_tabular('Time', time.time()-start_time)
+        logger.log_tabular('#catches', env.no_of_catches)
         logger.dump_tabular()
 
 if __name__ == '__main__':
