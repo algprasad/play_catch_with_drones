@@ -1,4 +1,4 @@
-drone_control_ws/devel/*
-drone_control_ws/include/*
-drone_control_ws/build/*
+drone_control_ws/devel/
+drone_control_ws/include/
+drone_control_ws/build/
 .idea

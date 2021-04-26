@@ -3,6 +3,7 @@ import numpy as np
 import time
 import random
 import rospy
+import tensorflow as tf
 from std_srvs.srv import Empty
 from gazebo_msgs.srv import GetModelState
 import std_msgs
@@ -49,6 +50,8 @@ class PlayCatch(object):
 
         #TODO: changing obsevation dimensions to ball position(x, y, z) and robot position (x, y)
         self.observation_dimensions = 5
+        self.observation_space = tf.placeholder(shape=(None, self.observation_dimensions), dtype=tf.float32)
+
         #TODO: action space would need to change depending on the number of actions
         self.action_space = 13
 
@@ -154,7 +157,7 @@ class PlayCatch(object):
         #rospy.on_shutdown(self.myhook)
 
     def reset_ball_position(self):
-        set_position_pub = rospy.Publisher('/gazebo/set_model_state', ModelState)
+        set_position_pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=5)
         #rospy.init_node('reset ball', anonymous=True)
         initial_pose = ModelState()
         initial_pose.model_name = 'unit_sphere'
@@ -323,7 +326,7 @@ class PlayCatch(object):
         z_ball = ball_pose.pose.position.z
         # if 2d distance between them is less than 10 cm AND z distance is greater than 20 but less tan 25
         planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
-        reward = 1/(1 + planar_distance)
+        reward = - planar_distance
 
         return reward
 

@@ -50,7 +50,7 @@ class SimplePolicyGradient:
             x = tf.layers.dense(x, units=size, activation=activation)
         return tf.layers.dense(x, units=sizes[-1], activation=output_activation)
 
-    def train(self, restore_checkpoints=True):
+    def train(self, restore_checkpoints=False):
         self.sess = tf.InteractiveSession()
         self.sess.run(tf.global_variables_initializer())
 
