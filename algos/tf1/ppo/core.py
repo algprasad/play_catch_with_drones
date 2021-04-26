@@ -21,8 +21,7 @@ def placeholder_from_space(space):
         return placeholder(space.shape)
     elif isinstance(space, Discrete):
         return tf.placeholder(dtype=tf.int32, shape=(None,))
-    # raise NotImplementedError
-    pass
+    raise NotImplementedError
 
 def placeholders_from_spaces(*args):
     return [placeholder_from_space(space) for space in args]
@@ -76,7 +75,7 @@ def mlp_categorical_policy(x, a, hidden_sizes, activation, output_activation, ac
 
 
 def mlp_gaussian_policy(x, a, hidden_sizes, activation, output_activation, action_space):
-    act_dim = 13 # a.shape.as_list()[-1]
+    act_dim = a.shape.as_list()[-1]
     mu = mlp(x, list(hidden_sizes)+[act_dim], activation, output_activation)
     log_std = tf.get_variable(name='log_std', initializer=-0.5*np.ones(act_dim, dtype=np.float32))
     std = tf.exp(log_std)
@@ -93,10 +92,10 @@ def mlp_actor_critic(x, a, hidden_sizes=(64,64), activation=tf.tanh,
                      output_activation=None, policy=None, action_space=None):
 
     # default policy builder depends on action space
-    if policy is None: # and isinstance(action_space, Box):
+    if policy is None and isinstance(action_space, Box):
         policy = mlp_gaussian_policy
-    # elif policy is None and isinstance(action_space, Discrete):
-    #     policy = mlp_categorical_policy
+    elif policy is None and isinstance(action_space, Discrete):
+        policy = mlp_categorical_policy
 
     with tf.variable_scope('pi'):
         pi, logp, logp_pi = policy(x, a, hidden_sizes, activation, output_activation, action_space)

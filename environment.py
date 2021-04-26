@@ -11,6 +11,8 @@ import geometry_msgs.msg
 import geometry_msgs as gm
 from gazebo_msgs.srv import ApplyBodyWrench, BodyRequest
 from gazebo_msgs.msg import ModelState
+from gym import spaces
+
 
 class PlayCatch(object):
 
@@ -31,11 +33,10 @@ class PlayCatch(object):
         vrep.simxStopSimulation(self.clientId, vrep.simx_opmode_oneshot)
         '''
 
-
         self.reset()
 
-        #TODO: add the different actions
-        #self.move_dict = {0: [0, 0], 1: [-0.5, 0], 2: [-1, 0], 3: [0.5, 0], 4: [1, 0], 5: [0, 0.1], 6:[0, 0.2], 7:[0, 0.5], 8:[0, 1], 9:[-1.5, 0], 10:[-2, 0], 11:[-3, 0], 12:[-5, 0], 13:[1.5, 0], 14:[2, 0], 15:[3, 0], 16:[5, 0]}
+        # TODO: add the different actions
+        # self.move_dict = {0: [0, 0], 1: [-0.5, 0], 2: [-1, 0], 3: [0.5, 0], 4: [1, 0], 5: [0, 0.1], 6:[0, 0.2], 7:[0, 0.5], 8:[0, 1], 9:[-1.5, 0], 10:[-2, 0], 11:[-3, 0], 12:[-5, 0], 13:[1.5, 0], 14:[2, 0], 15:[3, 0], 16:[5, 0]}
         # self.move_dict = {0: [0, 0], 1: [-0.25, 0], 2: [-0.5, 0], 3: [0.25, 0], 4: [0.5, 0], 5: [0, 0.1], 6: [0, 0.2],
         #                   7: [0, 0.5]}
         # self.move_dict = {0: [0, 0],
@@ -44,28 +45,29 @@ class PlayCatch(object):
         #                   9:[0, -0.25], 10:[0, -0.5], 11:[0, -1], 12:[0, -5],
         #                   13:[0, 0.25], 14:[0, 0.5], 15:[0, 1], 16:[0, 5],
         #                   17:[-10, 0 ], 18:[10, 0], 19:[0, -10], 20:[0, 10]}
-        self.move_dict = { 0:[0,0],
-                           1:[0.5, 0], 2:[1, 0], 3:[2, 0], 4:[5, 0], 5:[10, 0], 6:[15, 0],
-                           7:[-0.5, 0], 8:[-1, 0], 9:[-2, 0], 10:[-5, 0], 11:[-10, 0], 12:[-15, 0] }
+        self.move_dict = {0: [0, 0],
+                          1: [0.5, 0], 2: [1, 0], 3: [2, 0], 4: [5, 0], 5: [10, 0], 6: [15, 0],
+                          7: [-0.5, 0], 8: [-1, 0], 9: [-2, 0], 10: [-5, 0], 11: [-10, 0], 12: [-15, 0]}
 
-        #TODO: changing obsevation dimensions to ball position(x, y, z) and robot position (x, y)
+        # TODO: changing obsevation dimensions to ball position(x, y, z) and robot position (x, y)
         self.observation_dimensions = 5
-        self.observation_space = tf.placeholder(shape=(None, self.observation_dimensions), dtype=tf.float32)
+        self.observation_space = spaces.Box(low=np.array([-500.0, 0, -500.0, 0, -500.0]),
+                                            high=np.array([500.0, 0, 500.0, 0, 500.0]), dtype=np.float32)
+        # self.observation_space = tf.placeholder(shape=(None, self.observation_dimensions), dtype=tf.float32)
 
-        #TODO: action space would need to change depending on the number of actions
-        self.action_space = 13
+        # TODO: action space would need to change depending on the number of actions
 
+        # self.action_space = 13
+        self.action_space = spaces.Discrete(13)
         # put all the parameter values here
         self.ball_initial_position_x = -5
         self.ball_initial_position_y = 0
 
-        #self.node = rospy.init_node('ball_catcher_drone', anonymous=True)
+        # self.node = rospy.init_node('ball_catcher_drone', anonymous=True)
         # self.set_position_pub = rospy.Publisher('/gazebo/set_model_state', ModelState)
         # self.cmd_vel_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel', geometry_msgs.msg.TwistStamped,
         #                                    queue_size=10)
         # self.rate = rospy.Rate(20)
-
-
 
         # self.incremental_step_count = 0
         # self.incremental_step = []
@@ -100,10 +102,10 @@ class PlayCatch(object):
         reference_point = geometry_msgs.msg.Point(x=0, y=0, z=0)
         t = []
         f = []
-        fx = random.uniform(10, 30)
-        #fy = random.randint(10, 20)
+        fx = random.uniform(1, 10)
+        # fy = random.randint(10, 20)
         fy = 0
-        fz = random.randint(200, 300) # values of initial test were 10, 0, 100
+        fz = random.randint(20, 50)  # values of initial test were 10, 0, 100
         wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=fx, y=fy, z=fz), \
                                           torque=geometry_msgs.msg.Vector3(x=0, y=0, z=0))
 
@@ -126,7 +128,7 @@ class PlayCatch(object):
         '''
 
     def destroy(self):
-        #TODO: add code to pause gazebo simuation
+        # TODO: add code to pause gazebo simuation
         print('Destroying/Stopping simulation but maybe a function needs to be implemented to do that')
 
     # #function to reset iris position. not used for control
@@ -147,21 +149,22 @@ class PlayCatch(object):
         rospy.init_node('cmd_vel_node_py2', anonymous=True)
         print('Resetting Iris position')
         euclidan_distance = 1.5
-        while(euclidan_distance > 0.5):
+        while (euclidan_distance > 0.5):
             poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
             robot_pose = poses('iris_with_bowl', '')
-            robot_pose_current = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y, robot_pose.pose.position.z))
+            robot_pose_current = np.array(
+                (robot_pose.pose.position.x, robot_pose.pose.position.y, robot_pose.pose.position.z))
             robot_pose_initial = np.array((0, 0, 2))
             euclidan_distance = np.linalg.norm(robot_pose_current - robot_pose_initial)
-            #print(euclidan_distance)
-        #rospy.on_shutdown(self.myhook)
+            # print(euclidan_distance)
+        # rospy.on_shutdown(self.myhook)
 
     def reset_ball_position(self):
         set_position_pub = rospy.Publisher('/gazebo/set_model_state', ModelState, queue_size=5)
-        #rospy.init_node('reset ball', anonymous=True)
+        # rospy.init_node('reset ball', anonymous=True)
         initial_pose = ModelState()
         initial_pose.model_name = 'unit_sphere'
-        initial_pose.pose.position.x = -5
+        initial_pose.pose.position.x = -7
         initial_pose.pose.position.y = 0
         initial_pose.pose.position.z = 0
         j = 0
@@ -170,32 +173,30 @@ class PlayCatch(object):
             set_position_pub.publish(initial_pose)
             j += 1
             rate.sleep()
-        #rospy.on_shutdown(self.myhook)
+        # rospy.on_shutdown(self.myhook)
 
     def set_to_initial_position(self):
-        #TODO: publish the rostopic messgae to send the drone to the initial position
+        # TODO: publish the rostopic messgae to send the drone to the initial position
         self.reset_iris_position()
 
-        #TODO: use set_model_states to send the ball to the initial position
+        # TODO: use set_model_states to send the ball to the initial position
         self.reset_ball_position()
-
 
     def reset(self):
         print('Resetting world ...................')
 
         # maybe do some 'wait for service' here
-        #reset_simulation = rospy.ServiceProxy('/gazebo/reset_world', Empty)
+        # reset_simulation = rospy.ServiceProxy('/gazebo/reset_world', Empty)
 
         # invoke
-        #reset_simulation()
+        # reset_simulation()
         self.set_to_initial_position()
 
-
-        #after resetting the simulation wait for 1 second and launch the ball
+        # after resetting the simulation wait for 1 second and launch the ball
 
         self.launch_ball()
 
-        #TODO: return statement needed for the reset function
+        # TODO: return statement needed for the reset function
         poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         robot_pose = poses('iris_with_bowl', '')
         ball_pose = poses('unit_sphere', '')
@@ -206,8 +207,7 @@ class PlayCatch(object):
         print('World Reset ...........')
         return observations
 
-
-        #return np.asarray(self.ball_position + [self.quad_position[2]] + self.quad_orientation)
+        # return np.asarray(self.ball_position + [self.quad_position[2]] + self.quad_orientation)
 
     # TODO: (OFN) code to do random initialization. To be skipped for now
     def random_init(self):
@@ -227,7 +227,7 @@ class PlayCatch(object):
     def pub_cmd_vel(self, vel_x, vel_y):
         cmd_vel_pub = rospy.Publisher('/mavros/setpoint_velocity/cmd_vel', geometry_msgs.msg.TwistStamped,
                                       queue_size=10)
-        #rospy.init_node('cmd_vel_node_py2', anonymous=True)
+        # rospy.init_node('cmd_vel_node_py2', anonymous=True)
         rate = rospy.Rate(20)
         i = 0
         cmd_vel = geometry_msgs.msg.TwistStamped()
@@ -236,9 +236,9 @@ class PlayCatch(object):
             cmd_vel.twist.linear.y = vel_y
             cmd_vel_pub.publish(cmd_vel)
             rate.sleep()
-            #print(i)
+            # print(i)
             i += 1
-        #rospy.on_shutdown()
+        # rospy.on_shutdown()
 
     def step(self, action):
         # The Simulator returns the same state multiple times. Hence, wait until there is state change and then call exec_step
@@ -252,7 +252,7 @@ class PlayCatch(object):
         '''
 
         d, obs, reward = self.exec_step(action)
-        return d, obs, reward
+        return obs, reward, d
 
     def exec_step(self, action):
         '''
@@ -267,15 +267,16 @@ class PlayCatch(object):
         _, self.ball_position = vrep.simxGetObjectPosition(self.clientId, self.ball, self.quad, vrep.simx_opmode_buffer)
         '''
 
-        #TODO: send the action to the robot
-        action_value  = self.move_dict[action]
+        # TODO: send the action to the robot
+        action_value = self.move_dict[action]
         self.pub_cmd_vel(action_value[0], action_value[1])
 
-        #get observations = ball position and robot position
+        # get observations = ball position and robot position
         poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         robot_pose = poses('iris_with_bowl', '')
         ball_pose = poses('unit_sphere', '')
-        observations = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y, ball_pose.pose.position.x, ball_pose.pose.position.y, ball_pose.pose.position.z))
+        observations = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y, ball_pose.pose.position.x,
+                                 ball_pose.pose.position.y, ball_pose.pose.position.z))
         done, reward = self.get_reward()
         return done, observations, reward
 
@@ -292,27 +293,26 @@ class PlayCatch(object):
         z_diff = z_ball - robot_pose.pose.position.z
         # if 2d distance between them is less than 10 cm AND z distance is greater than 20 but less tan 25
         planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
-        #FIXME: If the iris is going towards theball but not really catching it, then decrease the planar distance threshold
+        # FIXME: If the iris is going towards theball but not really catching it, then decrease the planar distance threshold
         if planar_distance < 0.20 and 0.25 > z_diff > 0:
             return True
 
         return False
 
     def was_ball_dropped(self):
-        #TODO: change the initial position when you change the actual initial position
+        # TODO: change the initial position when you change the actual initial position
 
         ball_initial_position_2d = np.array((self.ball_initial_position_x, self.ball_initial_position_y))
         poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
 
         ball_pose = poses('unit_sphere', '')
         ball_current_position_2d = np.array((ball_pose.pose.position.x, ball_pose.pose.position.y))
-        #this planar distance is wrt the initial position
+        # this planar distance is wrt the initial position
         planar_distance = np.linalg.norm(ball_current_position_2d - ball_initial_position_2d)
         z_ball = ball_pose.pose.position.z
         if z_ball < 0.1 and planar_distance > 0.1:
             return True
         return False
-
 
     def get_reward_planar_dist(self):
         reward = 0
@@ -343,10 +343,8 @@ class PlayCatch(object):
             reward = -100
             done = True
 
-        #Reward based on planar distance
-        #FIXME(maybe) : source of error. if training not successful remove this
+        # Reward based on planar distance
+        # FIXME(maybe) : source of error. if training not successful remove this
         reward += self.get_reward_planar_dist()
 
         return done, reward
-
-

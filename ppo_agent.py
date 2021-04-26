@@ -1,8 +1,13 @@
+import os
+
 from utils.run_utils import ExperimentGrid
 from algos.tf1.ppo.ppo import ppo
 import tensorflow as tf
 import environment as envi
 from utils.mpi_tools import mpi_fork
+
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 if __name__ == '__main__':
     import argparse

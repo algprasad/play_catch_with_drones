@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import gym
 import time
 import algos.tf1.ppo.core as core
 from utils.logx import EpochLogger
@@ -170,14 +171,14 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
     np.random.seed(seed)
 
     env = env_fn()
-    obs_dim = 5 # env.observation_space.shape
-    act_dim = 13 # env.action_space.shape
-
+    obs_dim = env.observation_space.shape
+    act_dim = env.action_space.shape
+    
     # Share information about action space with policy architecture
-    ac_kwargs['action_space'] = env.move_dict # env.action_space
+    ac_kwargs['action_space'] = env.action_space
 
     # Inputs to computation graph
-    x_ph, a_ph = core.placeholders_from_spaces(env.observation_space, env.move_dict)
+    x_ph, a_ph = core.placeholders_from_spaces(env.observation_space, env.action_space)
     adv_ph, ret_ph, logp_old_ph = core.placeholders(None, None, None)
 
     # Main outputs from computation graph
@@ -252,7 +253,7 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
         for t in range(local_steps_per_epoch):
             a, v_t, logp_t = sess.run(get_action_ops, feed_dict={x_ph: o.reshape(1,-1)})
 
-            o2, r, d, _ = env.step(a[0])
+            o2, r, d = env.step(a[0])
             ep_ret += r
             ep_len += 1
 
@@ -318,7 +319,7 @@ if __name__ == '__main__':
     from utils.run_utils import setup_logger_kwargs
     logger_kwargs = setup_logger_kwargs(args.exp_name, args.seed)
 
-    ppo(lambda : args.env, actor_critic=core.mlp_actor_critic,
+    ppo(lambda : gym.make(args.env), actor_critic=core.mlp_actor_critic,
         ac_kwargs=dict(hidden_sizes=[args.hid]*args.l), gamma=args.gamma, 
         seed=args.seed, steps_per_epoch=args.steps, epochs=args.epochs,
         logger_kwargs=logger_kwargs)
