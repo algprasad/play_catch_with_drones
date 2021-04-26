@@ -67,14 +67,14 @@ set(position_control_cpp_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(position_control_cpp_SOURCE_PREFIX /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp)
-  set(position_control_cpp_DEVEL_PREFIX /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp)
+  set(position_control_cpp_SOURCE_PREFIX /home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/src/position_control_cpp)
+  set(position_control_cpp_DEVEL_PREFIX /home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/devel)
   set(position_control_cpp_INSTALL_PREFIX "")
   set(position_control_cpp_PREFIX ${position_control_cpp_DEVEL_PREFIX})
 else()
   set(position_control_cpp_SOURCE_PREFIX "")
   set(position_control_cpp_DEVEL_PREFIX "")
-  set(position_control_cpp_INSTALL_PREFIX /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/install)
+  set(position_control_cpp_INSTALL_PREFIX /home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/install)
   set(position_control_cpp_PREFIX ${position_control_cpp_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/install/lib;/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/install/lib;/home/sid/catkin_ws/src/aws-robomaker-sample-application-objecttracker/simulation_ws/install/turtlebot3_description_reduced_mesh/lib;/home/sid/catkin_ws/src/aws-robomaker-sample-application-objecttracker/simulation_ws/install/object_tracker_simulation/lib;/home/sid/catkin_ws/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

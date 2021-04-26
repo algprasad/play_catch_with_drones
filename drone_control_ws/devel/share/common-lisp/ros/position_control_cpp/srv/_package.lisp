@@ -1,1 +1,15 @@
-/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/share/common-lisp/ros/position_control_cpp/srv/_package.lisp
+(cl:defpackage position_control_cpp-srv
+  (:use )
+  (:export
+   "SET_POSITION"
+   "<SET_POSITION-REQUEST>"
+   "SET_POSITION-REQUEST"
+   "<SET_POSITION-RESPONSE>"
+   "SET_POSITION-RESPONSE"
+   "SET_VELOCITY"
+   "<SET_VELOCITY-REQUEST>"
+   "SET_VELOCITY-REQUEST"
+   "<SET_VELOCITY-RESPONSE>"
+   "SET_VELOCITY-RESPONSE"
+  ))
+

@@ -1,1 +1,10 @@
-/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/share/gennodejs/ros/position_control_cpp/srv/_index.js
+
+"use strict";
+
+let set_velocity = require('./set_velocity.js')
+let set_position = require('./set_position.js')
+
+module.exports = {
+  set_velocity: set_velocity,
+  set_position: set_position,
+};

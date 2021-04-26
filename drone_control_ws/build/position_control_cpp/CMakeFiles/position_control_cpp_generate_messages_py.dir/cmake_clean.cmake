@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/position_control_cpp_generate_messages_py"
-  "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/lib/python2.7/dist-packages/position_control_cpp/srv/_set_position.py"
-  "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/lib/python2.7/dist-packages/position_control_cpp/srv/_set_velocity.py"
-  "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/lib/python2.7/dist-packages/position_control_cpp/srv/__init__.py"
+  "/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/devel/lib/python2.7/dist-packages/position_control_cpp/srv/_set_position.py"
+  "/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/devel/lib/python2.7/dist-packages/position_control_cpp/srv/_set_velocity.py"
+  "/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/devel/lib/python2.7/dist-packages/position_control_cpp/srv/__init__.py"
 )
 
 # Per-language clean rules from dependency scanning.

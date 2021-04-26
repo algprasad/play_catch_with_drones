@@ -1,1 +1,6 @@
-/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/share/gennodejs/ros/position_control_cpp/_index.js
+
+"use strict";
+
+module.exports = {
+  srv: require('./srv/_index.js')
+};

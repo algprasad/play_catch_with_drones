@@ -1,4 +1,4 @@
-prefix=/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/install
+prefix=/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/install
 
 Name: position_control_cpp
 Description: Description of position_control_cpp

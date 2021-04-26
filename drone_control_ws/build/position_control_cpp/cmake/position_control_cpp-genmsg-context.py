@@ -1,7 +1,7 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
 messages_str = ""
-services_str = "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/srv/set_position.srv;/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/src/position_control_cpp/srv/set_velocity.srv"
+services_str = "/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/src/position_control_cpp/srv/set_position.srv;/home/sid/PycharmProjects/play_catch_with_drones/drone_control_ws/src/position_control_cpp/srv/set_velocity.srv"
 pkg_name = "position_control_cpp"
 dependencies_str = "std_msgs;geometry_msgs"
 langs = "gencpp;geneus;genlisp;gennodejs;genpy"

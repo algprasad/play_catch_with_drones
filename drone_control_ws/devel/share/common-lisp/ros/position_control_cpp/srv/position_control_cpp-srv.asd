@@ -1,1 +1,11 @@
-/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/share/common-lisp/ros/position_control_cpp/srv/position_control_cpp-srv.asd
+
+(cl:in-package :asdf)
+
+(defsystem "position_control_cpp-srv"
+  :depends-on (:roslisp-msg-protocol :roslisp-utils )
+  :components ((:file "_package")
+    (:file "set_position" :depends-on ("_package_set_position"))
+    (:file "_package_set_position" :depends-on ("_package"))
+    (:file "set_velocity" :depends-on ("_package_set_velocity"))
+    (:file "_package_set_velocity" :depends-on ("_package"))
+  ))

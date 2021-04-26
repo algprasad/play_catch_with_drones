@@ -1,1 +1,4 @@
-/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/drone_control_ws/devel/.private/position_control_cpp/share/position_control_cpp/cmake/position_control_cpp-msg-paths.cmake
+# generated from genmsg/cmake/pkg-msg-paths.cmake.develspace.in
+
+set(position_control_cpp_MSG_INCLUDE_DIRS "")
+set(position_control_cpp_MSG_DEPENDENCIES std_msgs;geometry_msgs)

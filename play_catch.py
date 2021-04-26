@@ -1,5 +1,8 @@
 import sys
 import simple_policy_gradient as spg
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1" #(or "1" or "2")
 
 if __name__ == "__main__":
     # # pg train 100 1
