@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 #importing the environment file and not the envi.py
-import environment as envi
+import environment_drone as envi
 import os.path
 
 

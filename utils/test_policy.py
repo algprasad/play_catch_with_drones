@@ -7,6 +7,8 @@ from utils.logx import EpochLogger
 from utils.logx import restore_tf_graph
 
 
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 def load_policy_and_env(fpath, itr='last', deterministic=False):
     """
     Load a policy from save, whether it's TF or PyTorch, along with RL env.
@@ -47,8 +49,7 @@ def load_policy_and_env(fpath, itr='last', deterministic=False):
         itr = '%d'%itr
 
     # load the get_action function
-    if backend == 'tf1':
-        get_action = load_tf_policy(fpath, itr, deterministic)
+    get_action = load_tf_policy(fpath, itr, deterministic)
     # else:
     #     get_action = load_pytorch_policy(fpath, itr, deterministic)
 
@@ -116,12 +117,12 @@ def run_policy(env, get_action, max_ep_len=None, num_episodes=100, render=True):
     logger = EpochLogger()
     o, r, d, ep_ret, ep_len, n = env.reset(), 0, False, 0, 0, 0
     while n < num_episodes:
-        if render:
-            env.render()
-            time.sleep(1e-3)
+        # if render:
+        #     env.render()
+        #     time.sleep(1e-3)
 
         a = get_action(o)
-        o, r, d, _ = env.step(a)
+        o, r, d = env.step(a)
         ep_ret += r
         ep_len += 1
 
@@ -139,14 +140,14 @@ def run_policy(env, get_action, max_ep_len=None, num_episodes=100, render=True):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('fpath', type=str)
+    # parser.add_argument('fpath', type=str)
     parser.add_argument('--len', '-l', type=int, default=0)
     parser.add_argument('--episodes', '-n', type=int, default=100)
     parser.add_argument('--norender', '-nr', action='store_true')
     parser.add_argument('--itr', '-i', type=int, default=-1)
     parser.add_argument('--deterministic', '-d', action='store_true')
     args = parser.parse_args()
-    env, get_action = load_policy_and_env(args.fpath, 
+    env, get_action = load_policy_and_env('models/ppo/ppo_s0/',
                                           args.itr if args.itr >=0 else 'last',
                                           args.deterministic)
     run_policy(env, get_action, args.len, args.episodes, not(args.norender))

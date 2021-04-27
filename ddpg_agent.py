@@ -1,7 +1,7 @@
 import os
 
 from algos.tf1.ddpg.ddpg import ddpg
-import environment as env
+import environment_drone as env
 
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"

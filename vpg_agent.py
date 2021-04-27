@@ -1,7 +1,7 @@
 import os
 from algos.tf1.vpg.vpg import vpg
 import tensorflow as tf
-import environment as envi
+import environment_drone as envi
 from utils.mpi_tools import mpi_fork
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -15,9 +15,9 @@ if __name__ == '__main__':
     parser.add_argument('--gamma', type=float, default=0.99)
     parser.add_argument('--seed', '-s', type=int, default=0)
     parser.add_argument('--cpu', type=int, default=4)
-    parser.add_argument('--steps', type=int, default=400)
-    parser.add_argument('--epochs', type=int, default=150)
-    parser.add_argument('--exp_name', type=str, default='vpg')
+    parser.add_argument('--steps', type=int, default=100)
+    parser.add_argument('--epochs', type=int, default=15000)
+    parser.add_argument('--exp_name', type=str, default='vpg-no-dist-reward')
     args = parser.parse_args()
 
     mpi_fork(args.cpu)  # run parallel code with mpi
