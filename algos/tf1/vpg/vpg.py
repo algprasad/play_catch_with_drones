@@ -273,6 +273,8 @@ def vpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
         logger.log_tabular('Entropy', average_only=True)
         logger.log_tabular('KL', average_only=True)
         logger.log_tabular('Time', time.time()-start_time)
+        logger.log_tabular('#catches', env.no_of_catches)
+
         logger.dump_tabular()
 
 if __name__ == '__main__':
