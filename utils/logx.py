@@ -2,7 +2,7 @@
 
 Some simple logging functionality, inspired by rllab's logging.
 
-Logs to a tab-separated-values file (path/to/output_directory/progress.txt)
+Logs to a tab-separated-values file (path/to/output_directory/progresso.txt)
 
 """
 import json
@@ -75,7 +75,7 @@ class Logger:
     state of a training run, and the trained model.
     """
 
-    def __init__(self, output_dir=None, output_fname='progress.txt', exp_name=None):
+    def __init__(self, output_dir=None, output_fname='progresso.txt', exp_name=None):
         """
         Initialize a Logger.
 
@@ -86,7 +86,7 @@ class Logger:
 
             output_fname (string): Name for the tab-separated-value file 
                 containing metrics logged throughout a training run. 
-                Defaults to ``progress.txt``. 
+                Defaults to ``progresso.txt``.
 
             exp_name (string): Experiment name. If you run multiple training
                 runs and give them all the same ``exp_name``, the plotter

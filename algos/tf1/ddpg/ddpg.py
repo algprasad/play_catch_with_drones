@@ -39,7 +39,7 @@ class ReplayBuffer:
 
 
 def ddpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
-         steps_per_epoch=4000, epochs=100, replay_size=int(1e6), gamma=0.99,
+         steps_per_epoch=400, epochs=100, replay_size=int(1e6), gamma=0.99,
          polyak=0.995, pi_lr=1e-3, q_lr=1e-3, batch_size=100, start_steps=10000,
          update_after=1000, update_every=50, act_noise=0.1, num_test_episodes=10,
          max_ep_len=1000, logger_kwargs=dict(), save_freq=1):
@@ -133,10 +133,10 @@ def ddpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
 
     env, test_env = env_fn(), env_fn()
     obs_dim = env.observation_space.shape[0]
-    act_dim = env.action_space.shape[0]
+    act_dim = 2 # env.action_space.shape[0]
 
     # Action limit for clamping: critically, assumes all dimensions share the same bound!
-    act_limit = env.action_space.high[0]
+    act_limit = [15, 0] # env.action_space.high[0]
 
     # Share information about action space with policy architecture
     ac_kwargs['action_space'] = env.action_space
@@ -221,7 +221,7 @@ def ddpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
             a = env.action_space.sample()
 
         # Step the env
-        o2, r, d, _ = env.step(a)
+        o2, r, d = env.step(a)
         ep_ret += r
         ep_len += 1
 
@@ -283,6 +283,7 @@ def ddpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
             logger.log_tabular('LossPi', average_only=True)
             logger.log_tabular('LossQ', average_only=True)
             logger.log_tabular('Time', time.time() - start_time)
+            logger.log_tabular('#catches', env.no_of_catches)
             logger.dump_tabular()
 
 

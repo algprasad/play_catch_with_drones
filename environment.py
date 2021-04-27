@@ -45,9 +45,8 @@ class PlayCatch(object):
         #                   9:[0, -0.25], 10:[0, -0.5], 11:[0, -1], 12:[0, -5],
         #                   13:[0, 0.25], 14:[0, 0.5], 15:[0, 1], 16:[0, 5],
         #                   17:[-10, 0 ], 18:[10, 0], 19:[0, -10], 20:[0, 10]}
-        self.move_dict = {0: [0, 0],
-                          1: [0.5, 0], 2: [1, 0], 3: [2, 0], 4: [5, 0], 5: [10, 0], 6: [15, 0],
-                          7: [-0.5, 0], 8: [-1, 0], 9: [-2, 0], 10: [-5, 0], 11: [-10, 0], 12: [-15, 0]}
+        self.move_dict = {0: [0, 0], 1: [1, 0], 2: [5, 0], 3: [-1, 0], 4: [-0.5, 0], 5: [10, 0], 6: [15, 0], 7: [-5, 0], 8: [-2, 0]}
+        #                   7: [-0.5, 0], 8: [-1, 0], 9: [-2, 0], 10: [-5, 0], 11: [-10, 0], 12: [-15, 0]}
 
         # TODO: changing obsevation dimensions to ball position(x, y, z) and robot position (x, y)
         self.observation_dimensions = 5
@@ -58,7 +57,7 @@ class PlayCatch(object):
         # TODO: action space would need to change depending on the number of actions
 
         # self.action_space = 13
-        self.action_space = spaces.Discrete(13)
+        self.action_space = spaces.Discrete(9)
         # put all the parameter values here
         self.ball_initial_position_x = -7
         self.ball_initial_position_y = 0
@@ -102,10 +101,10 @@ class PlayCatch(object):
         reference_point = geometry_msgs.msg.Point(x=0, y=0, z=0)
         t = []
         f = []
-        fx = random.uniform(6, 11)
+        fx = random.uniform(20, 80)
         # fy = random.randint(10, 20)
         fy = 0
-        fz = random.randint(40, 50)  # values of initial test were 10, 0, 100
+        fz = random.randint(100, 150)  # values of initial test were 10, 0, 100
         wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=fx, y=fy, z=fz), \
                                           torque=geometry_msgs.msg.Vector3(x=0, y=0, z=0))
 
@@ -327,8 +326,14 @@ class PlayCatch(object):
         z_ball = ball_pose.pose.position.z
         # if 2d distance between them is less than 10 cm AND z distance is greater than 20 but less tan 25
         planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
-        reward = 10/(1+planar_distance)
-
+        # print("d",planar_distance)
+        if ball_pose.twist.linear.z < 0:
+            reward = - planar_distance
+            rewardp = 500/(1+planar_distance)
+            if rewardp > 100:
+                reward += 100
+            else:
+                reward +=rewardp
         return reward
 
     def get_reward(self):
@@ -337,11 +342,11 @@ class PlayCatch(object):
 
         # if ball is caught give positive reward
         if self.was_ball_caught():
-            reward = 100
+            reward = 1000
             done = True
 
         if self.was_ball_dropped():
-            reward = -100
+            reward = -500
             done = True
 
         # Reward based on planar distance

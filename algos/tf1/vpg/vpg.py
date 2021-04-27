@@ -230,7 +230,7 @@ def vpg(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
         for t in range(local_steps_per_epoch):
             a, v_t, logp_t = sess.run(get_action_ops, feed_dict={x_ph: o.reshape(1,-1)})
 
-            o2, r, d, _ = env.step(a[0])
+            o2, r, d = env.step(a[0])
             ep_ret += r
             ep_len += 1
 
