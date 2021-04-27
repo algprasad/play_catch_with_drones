@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/spg/simple_pg.ckpt"
+all_model_checkpoint_paths: "/home/alg/Desktop/ASU_Courses/Spring2021/RobotLearning/Project/drone_catcher/spg/simple_pg.ckpt"

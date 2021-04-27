@@ -9,8 +9,8 @@ if __name__ == "__main__":
     #     sys.exit()
     # algorithm =
     # action = sys.argv[2]
-    action = "train"
-    epochs = 200
+    action = "eval"
+    epochs = 100
     runs_per_epoch = 50
     print('Started ................')
     algo = spg.SimplePolicyGradient(epochs=epochs, runs_per_epoch=runs_per_epoch)
@@ -18,6 +18,6 @@ if __name__ == "__main__":
     if action == "eval":
         algo.eval()
     elif action == "train":
-        algo.train()
+        algo.train(restore_checkpoints=False)
     else:
         print("Invalid action chosen")

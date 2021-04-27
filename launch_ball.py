@@ -32,7 +32,7 @@ def launch_ball():
     reference_point = geometry_msgs.msg.Point(x=0, y=0, z=0)
     t = []
     f = []
-    wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=12, y=0, z=100), \
+    wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=10, y=0, z=100), \
                                       torque=geometry_msgs.msg.Vector3(x=0, y=0, z=0))
 
     clear_body_wrench_client(body_name)

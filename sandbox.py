@@ -46,18 +46,16 @@ def pub_iris_cmd_vel(cmd_vel):
 def was_ball_caught():
     # get positions of ball and robot
     poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-    robot_pose = poses('iris_with_bowl', '')
+    robot_pose = poses('turtlebot3_burger_catcher', '')
     ball_pose = poses('unit_sphere', '')
 
     robot_pose_2d = np.array((robot_pose.pose.position.x, robot_pose.pose.position.y))
 
     ball_pose_2d = np.array((ball_pose.pose.position.x, ball_pose.pose.position.y))
     z_ball = ball_pose.pose.position.z
-    z_diff = z_ball - robot_pose.pose.position.z
     # if 2d distance between them is less than 10 cm AND z distance is greater than 20 but less tan 25
     planar_distance = np.linalg.norm(robot_pose_2d - ball_pose_2d)
-    # FIXME: If the iris is going towards theball but not really catching it, then decrease the planar distance threshold
-    if planar_distance < 0.10 and 0.15 > z_diff > 0:
+    if planar_distance < 0.10 and 0.25 > z_ball > 0.20:
         return True
 
     return False
@@ -66,18 +64,11 @@ def was_ball_caught():
 def was_ball_dropped():
     # TODO: change the initial position when you change the actual initial position
 
-
-    ball_initial_position_2d = np.array((-5, 0))
+    ball_initial_position_2d = np.array((0, 0))
     poses = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-    model_state = ModelState()
-    model_state.pose.position.x = -5
-    model_state.pose.position.y = 0
-    model_state.pose.position.z = 0
-    #TODO: restore from here
 
     ball_pose = poses('unit_sphere', '')
     ball_current_position_2d = np.array((ball_pose.pose.position.x, ball_pose.pose.position.y))
-    # this planar distance is wrt the initial position
     planar_distance = np.linalg.norm(ball_current_position_2d - ball_initial_position_2d)
     z_ball = ball_pose.pose.position.z
     if z_ball < 0.1 and planar_distance > 0.1:
@@ -123,33 +114,33 @@ model_coordinates = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
 pose = model_coordinates('unit_sphere', '' );
 print(pose.pose.position.z)
 i= 0
-reset_ball_position()
+#reset_ball_position()
 while True:
-    initial_position_x = -5
+    initial_position_x = 0
     initial_position_y = 0
     initial_position_z = 0
 
     print(i)
-    # if was_ball_caught():
-    #     print('BALL CAUGHT!')
-    #     break
-    # elif was_ball_dropped():
-    #     print('BALL DROPEED!')
-    #     break
-    cmd_vel = geometry_msgs.msg.TwistStamped()
-    cmd_vel.twist.linear.x = 0
-    cmd_vel.twist.linear.z = 0.5
-    if(was_ball_caught()):
-        print('Ball caught!')
+    if was_ball_caught():
+        print('BALL CAUGHT!')
         break
-    if(was_ball_dropped()):
-        print('Ball Dropped')
+    elif was_ball_dropped():
+        print('BALL DROPEED!')
         break
-
-    #set_cmd_vel(cmd_vel)
-    #pub_iris_cmd_vel(cmd_vel)
-    print(i)
-    i+=1
+    # cmd_vel = geometry_msgs.msg.TwistStamped()
+    # cmd_vel.twist.linear.x = 0
+    # cmd_vel.twist.linear.z = 0.5
+    # if(was_ball_caught()):
+    #     print('Ball caught!')
+    #     break
+    # if(was_ball_dropped()):
+    #     print('Ball Dropped')
+    #     break
+    #
+    # #set_cmd_vel(cmd_vel)
+    # #pub_iris_cmd_vel(cmd_vel)
+    # print(i)
+    # i+=1
 
 
 
