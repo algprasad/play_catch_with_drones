@@ -1,0 +1,44 @@
+{
+    "ac_kwargs":	{
+        "hidden_sizes":	[
+            8,
+            8
+        ]
+    },
+    "actor_critic":	"mlp_actor_critic",
+    "clip_ratio":	0.2,
+    "env_fn":	"<function <lambda> at 0x7f72f390b1e0>",
+    "epochs":	100,
+    "exp_name":	"ppo",
+    "filepath":	null,
+    "gamma":	0.99,
+    "lam":	0.97,
+    "logger":	{
+        "<utils.logx.EpochLogger object at 0x7f72da2fb470>":	{
+            "epoch_dict":	{},
+            "exp_name":	"ppo",
+            "first_row":	true,
+            "log_current_row":	{},
+            "log_headers":	[],
+            "output_dir":	"models/ppo/ppo_s0",
+            "output_file":	{
+                "<_io.TextIOWrapper name='models/ppo/ppo_s0/progresso.txt' mode='w' encoding='UTF-8'>":	{
+                    "mode":	"w"
+                }
+            }
+        }
+    },
+    "logger_kwargs":	{
+        "exp_name":	"ppo",
+        "output_dir":	"models/ppo/ppo_s0"
+    },
+    "max_ep_len":	1000,
+    "pi_lr":	0.0003,
+    "save_freq":	10,
+    "seed":	0,
+    "steps_per_epoch":	400,
+    "target_kl":	0.01,
+    "train_pi_iters":	80,
+    "train_v_iters":	80,
+    "vf_lr":	0.001
+}
