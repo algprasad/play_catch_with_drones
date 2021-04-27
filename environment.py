@@ -95,10 +95,10 @@ class PlayCatch(object):
         reference_point = geometry_msgs.msg.Point(x=0, y=0, z=0)
         t = []
         f = []
-        fx = random.uniform(10, 40)
+        fx = random.uniform(6, 10)
         #fy = random.randint(10, 20)
         fy = 0
-        fz = random.randint(50, 100) # values of initial test were 10, 0, 100
+        fz = random.randint(30, 50) # values of initial test were 10, 0, 100
         wrench = geometry_msgs.msg.Wrench(force=geometry_msgs.msg.Vector3(x=fx, y=fy, z=fz), \
                                           torque=geometry_msgs.msg.Vector3(x=0, y=0, z=0))
 
@@ -211,8 +211,8 @@ class PlayCatch(object):
             break
         '''
 
-        d, obs, reward = self.exec_step(action)
-        return d, obs, reward
+        obs, reward, d = self.exec_step(action)
+        return obs, reward, d
 
     def exec_step(self, action):
         '''
@@ -238,7 +238,7 @@ class PlayCatch(object):
                                  ball_pose.twist.linear.x, ball_pose.twist.linear.z))
 
         done, reward = self.get_reward()
-        return done, observations, reward
+        return observations, reward, done
 
     def was_ball_caught(self):
         # get positions of ball and robot
@@ -286,7 +286,7 @@ class PlayCatch(object):
 
         planar_distance = abs(robot_pose_x - ball_pose_x)
         #reward = 1/(1 + 10*planar_distance)
-        reward = -0.1*planar_distance
+        reward = -10*planar_distance
 
         return reward
 

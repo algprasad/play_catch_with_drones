@@ -4,7 +4,7 @@
   <arg name="y_pos" default="0"/>
   <arg name="z_pos" default="0.0"/>
 
-  <include file="./empty_world.launch">
+  <include file="/home/sid/PycharmProjects/play_catch_with_drones/empty_world.launch">
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>

@@ -1,7 +1,7 @@
 import os
 from algos.tf1.ppo.ppo import ppo
 import tensorflow as tf
-import environment_drone as envi
+import environment as envi
 from utils.mpi_tools import mpi_fork
 
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
@@ -12,13 +12,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--cpu', type=int, default=4)
     parser.add_argument('--num_runs', type=int, default=3)
-    parser.add_argument('--hid', type=int, default=8)
+    parser.add_argument('--hid', type=int, default=16)
     parser.add_argument('--l', type=int, default=2)
     parser.add_argument('--gamma', type=float, default=0.99)
     parser.add_argument('--seed', '-s', type=int, default=0)
-    parser.add_argument('--steps', type=int, default=100)
+    parser.add_argument('--steps', type=int, default=5000)
     parser.add_argument('--epochs', type=int, default=10000)
-    parser.add_argument('--exp_name', type=str, default='ppo-no-dist-reward')
+    parser.add_argument('--exp_name', type=str, default='ppo-t')
     args = parser.parse_args()
 
     mpi_fork(args.cpu)  # run parallel code with mpi

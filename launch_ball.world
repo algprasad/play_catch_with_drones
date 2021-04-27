@@ -86,7 +86,7 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <model name='unit_sphere'>
-      <pose frame=''>-5 0 0 0 -0 0</pose>
+      <pose frame=''>0 0 0.5 0 0 0</pose>
       <link name='link'>
         <inertial>
           <mass>0.01</mass>
@@ -137,7 +137,7 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    
+
     <state world_name='default'>
       <sim_time>467 80000000</sim_time>
       <real_time>468 588043731</real_time>
@@ -163,16 +163,6 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <!--model name='unit_sphere'>
-        <pose frame=''>322.542 -0.418864 0.5 0 -0.674731 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose frame=''>322.542 -0.418864 0.5 0 -0.674731 0</pose>
-          <velocity>7.14286 0 0 3.14159 1.42225 3.14159</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model-->
       <light name='sun'>
         <pose frame=''>0 0 10 0 -0 0</pose>
       </light>

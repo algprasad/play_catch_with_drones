@@ -217,6 +217,7 @@ def ppo(env_fn, actor_critic=core.mlp_actor_critic, ac_kwargs=dict(), seed=0,
     sess = tf.Session()
     if filepath is not None:
         restore_tf_graph(sess, fpath=filepath)
+    tf.summary
     sess.run(tf.global_variables_initializer())
 
     # Sync params across processes
